@@ -7,7 +7,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+Block.delete_all
 Asset.delete_all
 Type.delete_all
 
@@ -24,7 +24,7 @@ platform.assets << [ethereum, stellar]
 
 Block.create!(
   block_height: 540207,
-  block_hash: '000000000000000000133934217dc7cf654ab9d5cc9ce66d60f1261457f0da7c', 
+  block_hash: '000000000000000000133934217dc7cf654ab9d5cc9ce66d60f1261457f0da7c',
   transaction_num: 461,
   asset: bitcoin
 )
