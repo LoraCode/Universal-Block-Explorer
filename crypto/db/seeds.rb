@@ -19,6 +19,11 @@ bitcoin = Asset.create!(
   type_id: currency.id
 )
 
+ripple = Asset.create!(
+  name: 'Ripple',
+  type_id: currency.id
+)
+
 ethereum = Asset.create!(
   name: 'Ethereum',
   type_id: platform.id
