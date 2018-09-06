@@ -6,7 +6,7 @@ class AssetsController < ApplicationController
     else
       @assets = Asset.all
     end
-    render json: { assets: @assets}
+    render json: { assets: @assets }
   end
 
   def show
