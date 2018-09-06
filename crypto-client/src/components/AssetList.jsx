@@ -15,7 +15,7 @@ function AssetList({ assets }) {
         <div>
         {
           assets.map(asset => (
-            <div>
+            <div key={asset.id}>
               <Asset asset={asset} />
             </div>
           ))
