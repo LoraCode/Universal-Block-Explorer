@@ -17,11 +17,9 @@ ActiveRecord::Schema.define(version: 2018_09_06_005341) do
 
   create_table "assets", force: :cascade do |t|
     t.string "name"
-    t.bigint "type_id"
     t.integer "rank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["type_id"], name: "index_assets_on_type_id"
   end
 
   create_table "assets_types", id: false, force: :cascade do |t|
@@ -30,7 +28,8 @@ ActiveRecord::Schema.define(version: 2018_09_06_005341) do
   end
 
   create_table "blocks", force: :cascade do |t|
-    t.text "block_hash"
+    t.integer "block_height"
+    t.string "block_hash"
     t.integer "transaction_num"
     t.bigint "asset_id"
     t.datetime "created_at", null: false
@@ -44,6 +43,5 @@ ActiveRecord::Schema.define(version: 2018_09_06_005341) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "assets", "types"
   add_foreign_key "blocks", "assets"
 end
