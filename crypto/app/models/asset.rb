@@ -1,3 +1,4 @@
 class Asset < ApplicationRecord
-  belongs_to :type
+  has_and_belongs_to_many :types
+  has_many :blocks, dependent: :nullify
 end
