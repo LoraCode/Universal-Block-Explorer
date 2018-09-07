@@ -1,6 +1,17 @@
 import React from 'react';
 import Block from './Block';
 
+// function doSomething(arr) {
+//   const result = arr.reduce((accumulator, value) => {
+//     return accumulator + value;
+//   }, 0);
+//   return (
+//     <div>
+//     {result}
+//     </div>
+//   )
+// }
+
 function Asset({ asset }) {
   return (
     <div>

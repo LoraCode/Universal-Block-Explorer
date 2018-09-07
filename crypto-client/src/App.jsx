@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import AssetsPage from './components/AssetsPage'
+import HomePage from './components/HomePage'
 import { fetchTypes, fetchAssets } from './services/api'
 
 
@@ -14,12 +15,14 @@ class App extends Component {
       password:'',
       isLoggedIn: null,
       users: [],
+      searchedAsset: '',
     };
     this.logout = this.logout.bind(this)
     this.login = this.login.bind(this)
     this.isLoggedIn = this.isLoggedIn.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.getUsers = this.getUsers.bind(this)
+    this.filterAsset = this.filterAsset.bind(this)
   }
 
   getUsers() {
@@ -39,6 +42,13 @@ class App extends Component {
     this.setState({
       [e.target.name]:e.target.value
     })
+  }
+
+  filterAsset(word) {
+    const list = this.state.assets.filter((w) => {
+      return w.includes(word)
+    });
+    return list;
   }
 
   isLoggedIn() {
@@ -62,11 +72,12 @@ class App extends Component {
   login() {
     const url = `http://localhost:3000/user_token`;
     const body = {"auth": {"email": this.state.email, "password": this.state.password} }
-    const init = { method: 'POST',
-                   headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-                   mode: 'cors',
-                   body:JSON.stringify(body),
-                   }
+    const init = { 
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      mode: 'cors',
+      body:JSON.stringify(body),
+    }
     fetch(url, init)
     .then(res => res.json())
     .then(res => localStorage.setItem("jwt", res.jwt))
@@ -124,7 +135,12 @@ class App extends Component {
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
           {display} */}
-        <AssetsPage assets={this.state.assets}/>
+        {/* <AssetsPage assets={this.state.assets} /> */}
+        <HomePage 
+          assets={this.state.assets}
+          searchedAsset={this.state.searchedAsset}
+          filterAsset={this.filterAsset} 
+        />
       </div>
     );
   }
