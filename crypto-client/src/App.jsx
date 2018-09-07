@@ -45,10 +45,10 @@ class App extends Component {
   }
 
   filterAsset(word) {
-    const list = this.state.assets.filter((w) => {
+    const assets = this.state.assets.filter((w) => {
       return w.includes(word)
     });
-    return list;
+    return assets;
   }
 
   isLoggedIn() {
@@ -138,8 +138,9 @@ class App extends Component {
         {/* <AssetsPage assets={this.state.assets} /> */}
         <HomePage 
           assets={this.state.assets}
-          searchedAsset={this.state.searchedAsset}
-          filterAsset={this.filterAsset} 
+          value={this.state.searchedAsset}
+          filterAsset={this.filterAsset}
+          handleChange={this.handleChange}
         />
       </div>
     );
