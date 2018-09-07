@@ -7,6 +7,20 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+admin = User.new
+admin.email = 'l@l.com'
+admin.password = 'lora'
+admin.password_confirmation = 'lora'
+admin.admin = true
+admin.save
+
+user = User.new
+user.email = 'k@k.com'
+user.password = 'ken'
+user.password_confirmation = 'ken'
+user.save
+
 Block.delete_all
 Asset.delete_all
 Type.delete_all
