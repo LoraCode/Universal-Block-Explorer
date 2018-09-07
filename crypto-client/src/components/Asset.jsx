@@ -1,30 +1,26 @@
 import React from 'react';
 import Block from './Block';
 
-// function doSomething(arr) {
-//   const result = arr.reduce((accumulator, value) => {
-//     return accumulator + value;
-//   }, 0);
-//   return (
-//     <div>
-//     {result}
-//     </div>
-//   )
-// }
+function doSomething(arr) {
+  const result = arr.reduce((accumulator, value) => {
+    return accumulator + value;
+  }, 0);
+  return (
+    <div>
+    {result}
+    </div>
+  )
+}
 
 function Asset({ asset }) {
   return (
     <div>
       <h1>{asset.name}</h1>
-      <div>
+      <span>
       {
-        asset.blocks.map(block => (
-          <div key={block.block_height}>
-            <Block block={block} />
-          </div>
-        ))
+        asset.blocks.reduce((total, block) => total + block.transaction_num, 0)
       }
-      </div>
+      </span>
     </div>
   )
 }

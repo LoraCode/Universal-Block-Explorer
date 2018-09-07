@@ -1,18 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react'
+import Select from 'react-select'
 
-function HomePage({ assets, searchedAsset, filterAsset, handleChange }) {
-  return (
-    <div>
-      <h1>Test</h1>
-      <input
-      name="searchedAsset"
-      type="text"
-      placeholder={searchedAsset}
-      value={searchedAsset}
-      onChange={handleChange}
-    />
-    </div>
-  )
-}
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
+
+const HomePage = () => (
+  <Select options={options} />
+)
 
 export default HomePage

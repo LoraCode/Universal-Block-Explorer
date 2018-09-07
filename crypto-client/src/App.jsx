@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Select from 'react-select'
 import AssetsPage from './components/AssetsPage'
 import HomePage from './components/HomePage'
 import { fetchTypes, fetchAssets } from './services/api'
@@ -9,20 +10,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedAsset: null,
       types: null,
       assets: null,
       email: '',
       password:'',
       isLoggedIn: null,
       users: [],
-      searchedAsset: '',
+      currentPage: '',
     };
+    this.register = this.register.bind(this)
     this.logout = this.logout.bind(this)
     this.login = this.login.bind(this)
     this.isLoggedIn = this.isLoggedIn.bind(this)
-    this.handleChange = this.handleChange.bind(this)
     this.getUsers = this.getUsers.bind(this)
-    this.filterAsset = this.filterAsset.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   getUsers() {
@@ -44,13 +46,6 @@ class App extends Component {
     })
   }
 
-  filterAsset(word) {
-    const assets = this.state.assets.filter((w) => {
-      return w.includes(word)
-    });
-    return assets;
-  }
-
   isLoggedIn() {
     const res = !!(localStorage.getItem("jwt"));
     this.setState({
@@ -67,6 +62,20 @@ class App extends Component {
      name:"",
      email:"",
     })
+  }
+
+  register() {
+    const url = `http://localhost:3000/users`;
+    const body = {"user": {"email": this.state.email, "password": this.state.password} }
+    const init = { 
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      mode: 'cors',
+      body:JSON.stringify(body),
+    }
+    fetch(url, init)
+    .then(res => res.json())
+    .catch(err => console.log(err))
   }
 
   login() {
@@ -106,9 +115,16 @@ class App extends Component {
 
   render() {
 
-    // const display = this.state.isLoggedIn ? this.state.users.map((user) => {
-    //   return <p key={user.id}> Email:{user.email} </p>
-    // }) : "UNAUTHORIZED"
+    const display = this.state.isLoggedIn ? this.state.users.map((user) => {
+      return <p key={user.id}> Email:{user.email} </p>
+    }) : "UNAUTHORIZED"
+
+    const options = [
+      { value: 'bitcoin', label: 'Bitcoin' },
+      { value: 'ripple', label: 'Ripple' },
+      { value: 'ethereum', label: 'Ethereum' },
+      { value: 'stellar', label: 'Stellar' }
+    ]
 
     return (
       <div className="App">
@@ -132,16 +148,12 @@ class App extends Component {
           />
           </form>
           <br />
+          <button onClick={this.register}>Register</button>
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
           {display} */}
-        {/* <AssetsPage assets={this.state.assets} /> */}
-        <HomePage 
-          assets={this.state.assets}
-          value={this.state.searchedAsset}
-          filterAsset={this.filterAsset}
-          handleChange={this.handleChange}
-        />
+        <AssetsPage assets={this.state.assets} />
+        {/* <Select options={options} /> */}
       </div>
     );
   }

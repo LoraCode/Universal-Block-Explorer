@@ -4,9 +4,9 @@ import React from 'react';
 //   num.block.
 // }
 
-// function doSomething(num) {
-//   return num + 1;
-// }
+function doSomething(num) {
+  return num + 1;
+}
 
 // function doSomething(num) {
 //   const arr = [];
