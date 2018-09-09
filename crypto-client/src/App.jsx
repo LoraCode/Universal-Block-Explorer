@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
-import Select from 'react-select'
-import AssetsPage from './components/AssetsPage'
-import HomePage from './components/HomePage'
-import { fetchTypes, fetchAssets } from './services/api'
+import jwtDecode from 'jwt-decode';
+import Select from 'react-select';
+import AssetsPage from './components/AssetsPage';
+import ShowOne from './components/ShowOne';
+import HomePage from './components/HomePage';
+import { fetchTypes, fetchAssets } from './services/api';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedAsset: null,
-      types: null,
+      // types: null,
       assets: null,
+      selectedAsset: null,
       email: '',
       password:'',
       isLoggedIn: null,
@@ -25,10 +27,23 @@ class App extends Component {
     this.isLoggedIn = this.isLoggedIn.bind(this)
     this.getUsers = this.getUsers.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    // this.filterAssets = this.filterAssets.bind(this)
   }
+
+  // filterAssets(e) {
+  //   const assets = this.state.assets.filter((asset) => {
+  //     if (e.target.value === asset.types[0].name) {
+  //       return asset;
+  //     } else {
+  //       assets.pop(asset);
+  //     }
+  //   });
+  //   return assets;
+  // }
 
   getUsers() {
     const jwt = localStorage.getItem("jwt")
+    debugger;
     const init = { 
       headers: {"Authorization": `Bearer ${jwt}`}
     }
@@ -128,7 +143,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {/* <form>
+        <form>
           <label htmlFor="email">Email: </label>
           <br />
           <input
@@ -151,9 +166,10 @@ class App extends Component {
           <button onClick={this.register}>Register</button>
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
-          {display} */}
-        <AssetsPage assets={this.state.assets} />
+          {display}
+        {/* <AssetsPage assets={this.state.assets} filterAssets={this.filterAssets} /> */}
         {/* <Select options={options} /> */}
+        {/* <ShowOne assets={this.state.assets} /> */}
       </div>
     );
   }

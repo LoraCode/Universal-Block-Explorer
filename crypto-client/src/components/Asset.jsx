@@ -4,6 +4,7 @@ import Block from './Block';
 function Asset({ asset }) {
   return (
     <div>
+      <h2>Rank:{asset.rank}</h2>
       <h1>{asset.name}</h1>
       <span>
       {

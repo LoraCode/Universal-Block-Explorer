@@ -1,12 +1,15 @@
 import React from 'react';
 import AssetList from './AssetList';
+import FilterButtons from './FilterButtons'
 
-function AssetsPage({ assets }) {
+function AssetsPage({ assets, filterAssets }) {
   return (
     <div>
-      <h2>All Assets</h2>
+      <h2>Assets</h2>
+      <FilterButtons filterAssets={filterAssets} />
       <AssetList assets={assets} />
     </div>
   );
 }
-  export default AssetsPage;
+
+export default AssetsPage;
