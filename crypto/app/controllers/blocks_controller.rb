@@ -1,7 +1,8 @@
 class BlocksController < ApplicationController
   def index
-    if (params[:asset_id])
-      @blocks = Block.where(params[:asset_id])
+    if params[:asset_id]
+      @asset = Asset.find(params[:asset_id])
+      @blocks = @asset.blocks
     else
       @blocks = Block.all
     end

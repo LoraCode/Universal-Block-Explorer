@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_08_195235) do
+ActiveRecord::Schema.define(version: 2018_09_08_202549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,11 @@ ActiveRecord::Schema.define(version: 2018_09_08_195235) do
 
   create_table "assets_types", id: false, force: :cascade do |t|
     t.bigint "type_id", null: false
+    t.bigint "asset_id", null: false
+  end
+
+  create_table "assets_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.bigint "asset_id", null: false
   end
 

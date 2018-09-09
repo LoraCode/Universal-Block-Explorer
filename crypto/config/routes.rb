@@ -12,5 +12,9 @@ Rails.application.routes.draw do
   resources :assets
   
   post 'user_token' => 'user_token#create'
-  resources :users
+  resources :users do
+    resources :assets, only: [:index, :show] do
+      resources :types, only: [:index, :show]
+    end
+  end
 end
