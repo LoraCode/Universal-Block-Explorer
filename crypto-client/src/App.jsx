@@ -5,7 +5,7 @@ import Select from 'react-select';
 import AssetsPage from './components/AssetsPage';
 import ShowOne from './components/ShowOne';
 import HomePage from './components/HomePage';
-import { fetchTypes, fetchAssets } from './services/api';
+import { fetchAssets, userLogin, userRegister, fetchUser } from './services/api';
 
 
 class App extends Component {
@@ -15,19 +15,30 @@ class App extends Component {
       // types: null,
       assets: null,
       selectedAsset: null,
+      userAssets: null,
       email: '',
       password:'',
       isLoggedIn: null,
-      users: [],
+      user: null,
       currentPage: '',
     };
     this.register = this.register.bind(this)
     this.logout = this.logout.bind(this)
     this.login = this.login.bind(this)
     this.isLoggedIn = this.isLoggedIn.bind(this)
-    this.getUsers = this.getUsers.bind(this)
+    this.getUser = this.getUser.bind(this)
     this.handleChange = this.handleChange.bind(this)
     // this.filterAssets = this.filterAssets.bind(this)
+  }
+
+  componentDidMount() {
+    this.getAssets();
+    // this.getUsers();
+  }
+
+  getAssets() {
+    fetchAssets()
+      .then(assetData => this.setState({ assets: assetData.assets }));
   }
 
   // filterAssets(e) {
@@ -41,31 +52,31 @@ class App extends Component {
   //   return assets;
   // }
 
-  getUsers() {
-    const jwt = localStorage.getItem("jwt")
-    debugger;
-    const init = { 
-      headers: {"Authorization": `Bearer ${jwt}`}
-    }
-    fetch(`http://localhost:3000/users`, init)
-    .then(res => res.json())
-    .then(data => this.setState({
-      users: data,
-    }))
-    .catch(err => err)
+  async getUser() {
+    try {
+      const jwt = localStorage.getItem("jwt");
+      const user = jwtDecode(jwt);
+      const res = await fetchUser(jwt, user.sub);
+      const state = this.setState({
+        user: res,
+      });
+      return state;
+    } catch (err) {
+      throw (err);
+    };
   }
 
   handleChange(e) {
     this.setState({
       [e.target.name]:e.target.value
-    })
+    });
   }
 
   isLoggedIn() {
     const res = !!(localStorage.getItem("jwt"));
     this.setState({
       isLoggedIn: res,
-    })
+    });
     return res;
   }
 
@@ -73,66 +84,44 @@ class App extends Component {
     localStorage.removeItem("jwt")
     this.setState({
      isLoggedIn: false,
-     users: [],
-     name:"",
-     email:"",
-    })
+     user: null,
+     email: "",
+     password: "",
+    });
   }
 
-  register() {
-    const url = `http://localhost:3000/users`;
-    const body = {"user": {"email": this.state.email, "password": this.state.password} }
-    const init = { 
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      mode: 'cors',
-      body:JSON.stringify(body),
-    }
-    fetch(url, init)
-    .then(res => res.json())
-    .catch(err => console.log(err))
+  async register() {
+    try {
+      const { email, password } = this.state;
+      const user = await userRegister(email, password);
+      return user;
+    } catch (err) {
+      throw (err);
+    };
   }
 
-  login() {
-    const url = `http://localhost:3000/user_token`;
-    const body = {"auth": {"email": this.state.email, "password": this.state.password} }
-    const init = { 
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      mode: 'cors',
-      body:JSON.stringify(body),
-    }
-    fetch(url, init)
-    .then(res => res.json())
-    .then(res => localStorage.setItem("jwt", res.jwt))
-    .then(() => this.setState({
-      isLoggedIn: true,
-    }))
-    .then(() => this.getUsers())
-    .catch(err => console.log(err))
+  async login() {
+    try {
+      const { email, password } = this.state;
+      const res = await userLogin(email, password);
+      localStorage.setItem("jwt", res.jwt);
+      this.setState({
+        isLoggedIn: true,
+        password: '',
+      });
+      const user = this.getUser();
+      debugger;
+      return user;
+    } catch (err) {
+      throw (err);
+    };
   }
-
-    componentDidMount() {
-      this.getTypes();
-      this.getAssets();
-      // this.getUsers();
-    }
-
-    getTypes() {
-      fetchTypes()
-        .then(typeData => this.setState({ types: typeData.types }));
-    }
-
-    getAssets() {
-      fetchAssets()
-        .then(assetData => this.setState({ assets: assetData.assets }));
-    }
 
   render() {
 
-    const display = this.state.isLoggedIn ? this.state.users.map((user) => {
-      return <p key={user.id}> Email:{user.email} </p>
-    }) : "UNAUTHORIZED"
+    // const display = this.state.isLoggedIn ? this.state.users.map((user) => {
+    //   return <p key={user.id}> Email:{user.email} </p>
+    // }) : "UNAUTHORIZED"
 
     const options = [
       { value: 'bitcoin', label: 'Bitcoin' },
@@ -166,7 +155,7 @@ class App extends Component {
           <button onClick={this.register}>Register</button>
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
-          {display}
+          {/* {display} */}
         {/* <AssetsPage assets={this.state.assets} filterAssets={this.filterAssets} /> */}
         {/* <Select options={options} /> */}
         {/* <ShowOne assets={this.state.assets} /> */}
