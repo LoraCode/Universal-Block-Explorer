@@ -8,7 +8,7 @@ For each asset, a subscription will be made to a websocket API where incoming re
 
 ## ERD
 
-![alt text](https://github.com/LoraCode/Universal-Block-Explorer/blob/master/Images/Updated%20ERD.png?raw=true)
+![alt text](https://github.com/LoraCode/Universal-Block-Explorer/blob/master/Images/ERD.png)
 
 ## Wireframes
 
