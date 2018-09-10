@@ -119,9 +119,19 @@ class App extends Component {
 
   render() {
 
-    // const display = this.state.isLoggedIn ? this.state.users.map((user) => {
-    //   return <p key={user.id}> Email:{user.email} </p>
-    // }) : "UNAUTHORIZED"
+    const display = this.state.user ? this.state.user.assets.map((asset) => {
+      return (
+        <div key={asset.name}>
+          <h1>{asset.name}</h1>
+          <h2>Rank: {asset.rank}</h2>
+          <span>
+          {
+            asset.blocks.reduce((total, block) => total + block.transaction_num, 0)
+          }
+          </span>
+        </div>
+      )
+    }) : 'WANT YOUR ASSETS?'
 
     const options = [
       { value: 'bitcoin', label: 'Bitcoin' },
@@ -155,7 +165,7 @@ class App extends Component {
           <button onClick={this.register}>Register</button>
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
-          {/* {display} */}
+          {display}
         {/* <AssetsPage assets={this.state.assets} filterAssets={this.filterAssets} /> */}
         {/* <Select options={options} /> */}
         {/* <ShowOne assets={this.state.assets} /> */}
