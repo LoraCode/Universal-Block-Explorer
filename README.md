@@ -1,7 +1,7 @@
 # Universal-Block-Explorer
 
 API endpoints don’t exist for easy access to all of the data stored on-chain, more importantly, API endpoints also don’t exist for viewing the blockchain data in aggregate.
-Ultimately it should be a visual representation of which crypto are being used the most.
+Ultimately it should be a visual representation of which crypto are being used the most by tracking its transaction value.
 For each asset, a subscription will be made to a websocket API where incoming responses will be saved into the database.
 
 ![alt text](https://github.com/LoraCode/Universal-Block-Explorer/blob/master/Images/Block-data.png)
