@@ -15,7 +15,6 @@ class App extends Component {
       // types: null,
       assets: null,
       selectedAsset: null,
-      userAssets: null,
       email: '',
       password:'',
       isLoggedIn: null,
