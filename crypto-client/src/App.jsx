@@ -141,7 +141,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <form>
+        {/* <form>
           <label htmlFor="email">Email: </label>
           <br />
           <input
@@ -164,7 +164,7 @@ class App extends Component {
           <button onClick={this.register}>Register</button>
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
-          {display}
+          {display} */}
         {/* <AssetsPage assets={this.state.assets} filterAssets={this.filterAssets} /> */}
         {/* <Select options={options} /> */}
         {/* <ShowOne assets={this.state.assets} /> */}
