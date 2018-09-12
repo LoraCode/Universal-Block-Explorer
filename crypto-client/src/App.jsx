@@ -5,7 +5,16 @@ import Select from 'react-select';
 import AssetsPage from './components/AssetsPage';
 import ShowOne from './components/ShowOne';
 import HomePage from './components/HomePage';
-import { fetchAssets, userLogin, userRegister, fetchUser } from './services/api';
+import { 
+  fetchAssets,
+  updateAssetRank,
+  fetchUser,
+  fetchUserAssets,
+  createUserAsset,
+  destroyUserAsset,
+  userLogin,
+  userRegister,
+} from './services/api';
 
 
 class App extends Component {
@@ -21,11 +30,14 @@ class App extends Component {
       user: null,
       currentPage: '',
     };
+    this.addUserAsset = this.addUserAsset.bind(this)
+    this.deleteUserAsset = this.deleteUserAsset.bind(this)
     this.register = this.register.bind(this)
     this.logout = this.logout.bind(this)
     this.login = this.login.bind(this)
     this.isLoggedIn = this.isLoggedIn.bind(this)
     this.getUser = this.getUser.bind(this)
+    this.getUserAssets = this.getUserAssets.bind(this)
     this.handleChange = this.handleChange.bind(this)
     // this.filterAssets = this.filterAssets.bind(this)
   }
@@ -40,16 +52,33 @@ class App extends Component {
       .then(assetData => this.setState({ assets: assetData.assets }));
   }
 
-  // filterAssets(e) {
-  //   const assets = this.state.assets.filter((asset) => {
-  //     if (e.target.value === asset.types[0].name) {
-  //       return asset;
-  //     } else {
-  //       assets.pop(asset);
-  //     }
-  //   });
-  //   return assets;
-  // }
+  async editAssetRank() {
+
+  }
+
+  async addUserAsset() {
+    try {
+      const { user, selectedAsset } = this.state;
+      debugger;
+      await createUserAsset(user.id, selectedAsset);
+      debugger;
+      const renderUserAssets = this.getUserAssets();
+      return renderUserAssets;
+    } catch (err) {
+      throw (err);
+    };
+  }
+
+  async deleteUserAsset(id) {
+    try {
+      const { user } = this.state;
+      await destroyUserAsset(user.id, id);
+      const renderUserAssets = this.getUserAssets();
+      return renderUserAssets;
+    } catch (err) {
+      throw (err);
+    };
+  }
 
   async getUser() {
     try {
@@ -65,12 +94,25 @@ class App extends Component {
     };
   }
 
-  handleChange(e) {
-    this.setState({
-      [e.target.name]:e.target.value
-    });
+  async getUserAssets() {
+    try {
+      const { user } = this.state;
+      debugger;
+      const assets = await fetchUserAssets(user.id);
+      debugger;
+      const state = this.setState({
+        user: {
+          assets: assets
+        }
+      });
+      debugger;
+      return state;
+    } catch (err) {
+      throw (err);
+    };
   }
 
+  
   isLoggedIn() {
     const res = !!(localStorage.getItem("jwt"));
     this.setState({
@@ -78,17 +120,17 @@ class App extends Component {
     });
     return res;
   }
-
+  
   logout() {
     localStorage.removeItem("jwt")
     this.setState({
-     isLoggedIn: false,
-     user: null,
-     email: "",
-     password: "",
+      isLoggedIn: false,
+      user: null,
+      email: "",
+      password: "",
     });
   }
-
+  
   async register() {
     try {
       const { email, password } = this.state;
@@ -98,7 +140,7 @@ class App extends Component {
       throw (err);
     };
   }
-
+  
   async login() {
     try {
       const { email, password } = this.state;
@@ -116,21 +158,30 @@ class App extends Component {
     };
   }
 
+  handleChange(e) {
+    this.setState({
+      [e.target.name]:e.target.value
+    });
+  }
+  
   render() {
-
-    const display = this.state.user ? this.state.user.assets.map((asset) => {
-      return (
-        <div key={asset.name}>
-          <h1>{asset.name}</h1>
-          <h2>Rank: {asset.rank}</h2>
-          <span>
-          {
-            asset.blocks.reduce((total, block) => total + block.transaction_num, 0)
-          }
-          </span>
-        </div>
-      )
-    }) : 'WANT YOUR ASSETS?'
+    
+    const display = this.state.user && this.state.user.assets ? 
+      this.state.user.assets.map((asset) => {
+        return (
+          <div key={asset.name}>
+            <h1>{asset.name}</h1>
+            <h2>Rank: {asset.rank}</h2>
+            <span>
+            {
+              asset.blocks.reduce((total, block) => total + block.transaction_num, 0)
+            }
+            </span>
+            <br/>
+            <button onClick={() => this.deleteUserAsset(asset.id)}>Remove Asset</button>
+          </div>
+        )
+      }) : 'WANT YOUR ASSETS?'
 
     const options = [
       { value: 'bitcoin', label: 'Bitcoin' },
@@ -141,7 +192,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {/* <form>
+        <form>
           <label htmlFor="email">Email: </label>
           <br />
           <input
@@ -164,7 +215,30 @@ class App extends Component {
           <button onClick={this.register}>Register</button>
           <button onClick={this.login}>Login</button>
           <button onClick={this.logout}>Logout</button>
-          {display} */}
+          <br />
+          <form onSubmit={this.addUserAsset}>
+          <select
+            value={this.state.selectedAsset}
+            name="selectedAsset"
+            onChange={this.handleChange} >
+            <option value={this.state.selectedAsset} >Choose an Asset</option>
+            {
+              this.state.assets ?
+              this.state.assets.map(asset => {
+                return (
+                  <option
+                  key={asset.id}
+                  value={asset.id}>
+                    {asset.name}
+                  </option>
+                )
+              }) : []
+            }
+          </select>
+          <br />
+          <input type='submit' value='Add Asset' />
+          </form>
+          {display}
         {/* <AssetsPage assets={this.state.assets} filterAssets={this.filterAssets} /> */}
         {/* <Select options={options} /> */}
         {/* <ShowOne assets={this.state.assets} /> */}
