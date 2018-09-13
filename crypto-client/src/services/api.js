@@ -10,6 +10,7 @@ const fetchAssets = async () => {
 }
 
 const updateAssetRank = async (id, rank) => {
+  debugger;
   try {
     const url = `${BASE_URL}/assets/${id}`
     const body = {
@@ -24,6 +25,7 @@ const updateAssetRank = async (id, rank) => {
       body: JSON.stringify(body),
     };
     const res = await fetch(url, init);
+    debugger;
     return res.json();
   } catch (err) {
     throw (err);

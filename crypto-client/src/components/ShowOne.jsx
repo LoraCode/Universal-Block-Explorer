@@ -1,19 +1,20 @@
 import React from 'react';
 import Block from './Block';
 
-function ShowOne({ assets }) {
+function ShowOne({ asset }) {
   let result;
-  if (!assets) {
+  if (!asset) {
     result = (
       <p> wait for asset...</p>
     )
   } else {
     result = (
       <div>
-        <h1>{assets[0].name}</h1>
-        <h2>{assets[0].types[0].name}</h2>
+        <h1>{asset.name}</h1>
+        <h2>Asset Type: {asset.types[0].name}</h2>
+        <h3>Transaction Total: {asset.transaction_total}</h3>
         {
-         assets[0].blocks.map(block => (
+         asset.blocks.map(block => (
            <div key={block.block_height}>
              <Block block={block} />
            </div>

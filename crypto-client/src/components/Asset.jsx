@@ -1,10 +1,9 @@
 import React from 'react';
 import Block from './Block';
 
-function Asset({ asset }) {
+function Asset({ asset, showTargetAsset, index }) {
   return (
-    <div>
-      <h2>Rank:{asset.rank}</h2>
+    <div id={index} onClick={(evt) => showTargetAsset(evt)}>
       <h1>{asset.name}</h1>
       <span>
       {
