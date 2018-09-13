@@ -10,7 +10,7 @@ class AssetsController < ApplicationController
     else
       @assets = Asset.all
     end
-    render json: { assets: @assets }, include: %i[blocks types]
+    render json: { assets: @assets }, include: %i[blocks types], methods: :transaction_total
   end
 
   def show
