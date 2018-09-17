@@ -74,6 +74,7 @@ class App extends Component {
     const asset = assets[assetIndex];
     this.setState((prevState) => {
       prevState.targetAsset = asset;
+      prevState.currentPage = 'showOne';
       return prevState;
     });
   }
@@ -356,14 +357,8 @@ class App extends Component {
           <div></div>
           )
         }
-        <button name='showOne' onClick={(evt) => this.toggleCurrentPage(evt)}>Show</button>
         </header>
         {this.choosePage()}
-        {/* {
-          this.showTargetAsset ? (
-
-          )
-        } */}
           {/* <br />
           <form onSubmit={this.addUserAsset}>
           <select
