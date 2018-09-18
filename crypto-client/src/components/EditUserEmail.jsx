@@ -16,6 +16,7 @@ class EditUserEmail extends Component {
     evt.preventDefault();
     const { id, email } = this.state;
     this.props.editUserEmail(id, email);
+    this.props.toggleShowEdit();
   }
 
   handleChange(e) {

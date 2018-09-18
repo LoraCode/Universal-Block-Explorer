@@ -120,7 +120,6 @@ const userLogin = async (email, password) => {
 }
 
 const updateUserEmail = async (id, email) => {
-  debugger;
   try {
     const url = `${BASE_URL}/users/${id}`
     const body = {
@@ -135,7 +134,6 @@ const updateUserEmail = async (id, email) => {
       body: JSON.stringify(body),
     };
     const res = await fetch(url, init);
-    debugger;
     return res.json();
   } catch (err) {
     throw (err);

@@ -15,24 +15,27 @@ class UserAssets extends Component {
   //   });
   // }
 
-  render () {
-  const display = this.props.user ? 
-      this.props.user.assets.sort(this.props.compareValues('id', 'desc')).map((asset) => {
-        return (
-          <div key={asset.name}>
-            <h1>{asset.name}</h1>
-            <span>
-            {
-              asset.blocks.reduce((total, block) => total + block.transaction_num, 0)
-            }
-            </span>
-            <br/>
-            <button onClick={() => this.props.deleteUserAsset(asset.id)}>Remove Asset</button>
-          </div>
-        )
-      }) : 'WANT YOUR ASSETS?'
-      return (
-        <div>
+  render() {
+    const display = this.props.user ? (
+      this.props.user.assets.length ? (
+        this.props.user.assets.sort(this.props.compareValues('id', 'desc')).map((asset) => {
+          return (
+            <div key={asset.name}>
+              <h1>{asset.name}</h1>
+              <span>
+                {
+                  asset.blocks.reduce((total, block) => total + block.transaction_num, 0)
+                }
+              </span>
+              <br />
+              <button onClick={() => this.props.deleteUserAsset(asset.id)}>Remove Asset</button>
+            </div>
+          )
+        })
+      ) : []
+    ) : 'WANT YOUR ASSETS?'
+    return (
+      <div>
         <form onSubmit={(evt) => this.props.addUserAsset(evt)}>
           <select
             name="selectedAsset"
@@ -40,24 +43,24 @@ class UserAssets extends Component {
             <option >Choose an Asset</option>
             {
               this.props.assets ?
-              this.props.assets.sort(this.props.compareValues('id', 'desc')).map(asset => {
-                return (
-                  <option
-                  key={asset.id}
-                  value={asset.id}>
-                    {asset.name}
-                  </option>
-                )
-              }) : []
+                this.props.assets.sort(this.props.compareValues('id', 'desc')).map(asset => {
+                  return (
+                    <option
+                      key={asset.id}
+                      value={asset.id}>
+                      {asset.name}
+                    </option>
+                  )
+                }) : []
             }
           </select>
           <br />
           <input type='submit' value='Add Asset' />
-          </form>
+        </form>
         {display}
-        </div>
-      );
-    }
+      </div>
+    );
+  }
 }
 
 export default UserAssets;

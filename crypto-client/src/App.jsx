@@ -50,6 +50,9 @@ class App extends Component {
 
   componentDidMount() {
     this.getAssets();
+    // this.state.user ? (
+    // this.getUserAssets()
+    // ) : null
     // this.isLoggedIn();
     // this.orderByTransactionTotal(this.getAssets());
   }
@@ -215,9 +218,7 @@ class App extends Component {
 
   async editUserEmail(id, email) {
     try {
-      debugger;
       const updatedUser = await updateUserEmail(id, email);
-      debugger;
       const state = this.setState({
         user: {
           email: updatedUser.email
@@ -250,13 +251,12 @@ class App extends Component {
       debugger;
       const assets = await fetchUserAssets(user.id);
       debugger;
-      const state = this.setState({
-        user: {
-          assets: assets
-        }
+      const yay = this.setState((prevState) => {
+        debugger;
+        return prevState.user.assets;
       });
       debugger;
-      return state;
+      return yay;
     } catch (err) {
       throw (err);
     };

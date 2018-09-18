@@ -12,6 +12,8 @@ class LogRegForm extends Component {
     // this.isLoggedIn = this.isLoggedIn.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.toggleShowEdit = this.toggleShowEdit.bind(this)
+    this.clearInputs = this.clearInputs.bind(this)
+    this.logoutAndClearFields = this.logoutAndClearFields.bind(this)
   }
 
   toggleShowEdit() {
@@ -25,6 +27,18 @@ class LogRegForm extends Component {
     this.setState({
       [e.target.name]:e.target.value
     });
+  }
+
+  clearInputs() {
+    this.setState({
+      email: '',
+      password: ''
+    });
+  }
+
+  logoutAndClearFields() {
+    this.props.logout();
+    this.clearInputs();
   }
 
   render() {
@@ -42,13 +56,14 @@ class LogRegForm extends Component {
                 <EditUserEmail user={this.props.user}
                   handleChange={this.handleChange}
                   editUserEmail={this.props.editUserEmail}
+                  toggleShowEdit={this.toggleShowEdit}
                 />
                 <button onClick={this.toggleShowEdit}>Cancel</button>
               </div>
             ) : <button onClick={this.toggleShowEdit}>Edit Email</button>
           ) : <p>no edit form</p>
         }
-        <button onClick={this.props.logout}>Logout</button>
+        <button onClick={this.logoutAndClearFields}>Logout</button>
       </div>
     ) : display = (
       <div>
