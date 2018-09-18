@@ -9,13 +9,13 @@ import UserAssets from './components/UserAssets';
 import LogRegForm from './components/LogRegForm';
 import { 
   fetchAssets,
-  updateAssetRank,
   fetchUser,
   fetchUserAssets,
   createUserAsset,
   destroyUserAsset,
   userLogin,
   userRegister,
+  updateUserEmail,
 } from './services/api';
 
 
@@ -36,6 +36,7 @@ class App extends Component {
     // this.editAssetRank = this.editAssetRank.bind(this)
     this.addUserAsset = this.addUserAsset.bind(this)
     this.deleteUserAsset = this.deleteUserAsset.bind(this)
+    this.editUserEmail = this.editUserEmail.bind(this)
     this.register = this.register.bind(this)
     this.logout = this.logout.bind(this)
     this.login = this.login.bind(this)
@@ -212,6 +213,22 @@ class App extends Component {
     };
   }
 
+  async editUserEmail(id, email) {
+    try {
+      debugger;
+      const updatedUser = await updateUserEmail(id, email);
+      debugger;
+      const state = this.setState({
+        user: {
+          email: updatedUser.email
+        }
+      });
+      return state;
+    } catch (err) {
+      throw (err);
+    }
+  }
+
   async getUser() {
     try {
       const jwt = localStorage.getItem("jwt");
@@ -342,11 +359,12 @@ class App extends Component {
       <div className="App">
         <header>
         <LogRegForm
-        register={this.register}
-        login={this.login}
-        logout={this.logout}
-        isLoggedIn={this.state.isLoggedIn}
-        user={this.state.user}
+          register={this.register}
+          login={this.login}
+          logout={this.logout}
+          isLoggedIn={this.state.isLoggedIn}
+          user={this.state.user}
+          editUserEmail={this.editUserEmail}
         />
         <button name='home' onClick={(evt) => this.toggleCurrentPage(evt)}>Home</button>
         <button name='assets' onClick={(evt) => this.toggleCurrentPage(evt)}>Assets</button>

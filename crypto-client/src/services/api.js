@@ -10,29 +10,6 @@ const fetchAssets = async () => {
   };
 }
 
-const updateAssetRank = async (id, rank) => {
-  debugger;
-  try {
-    const url = `${BASE_URL}/assets/${id}`
-    const body = {
-      'asset': {
-        'rank': rank
-      }
-    };
-    const init = {
-      method: 'PATCH',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      mode: 'cors',
-      body: JSON.stringify(body),
-    };
-    const res = await fetch(url, init);
-    debugger;
-    return res.json();
-  } catch (err) {
-    throw (err);
-  };
-}
-
 const fetchUser = async (jwt, id) => {
   try {
     const init = {
@@ -142,13 +119,36 @@ const userLogin = async (email, password) => {
   };
 }
 
+const updateUserEmail = async (id, email) => {
+  debugger;
+  try {
+    const url = `${BASE_URL}/users/${id}`
+    const body = {
+      'user': {
+        'email': email
+      }
+    };
+    const init = {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      mode: 'cors',
+      body: JSON.stringify(body),
+    };
+    const res = await fetch(url, init);
+    debugger;
+    return res.json();
+  } catch (err) {
+    throw (err);
+  };
+}
+
 export {
   fetchAssets,
-  updateAssetRank,
   fetchUser,
   fetchUserAssets,
   createUserAsset,
   destroyUserAsset,
   userRegister,
-  userLogin
+  userLogin,
+  updateUserEmail
 };
