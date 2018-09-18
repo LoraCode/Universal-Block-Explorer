@@ -3,10 +3,19 @@ import React, { Component } from 'react';
 class UserAssets extends Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   selectedAsset: null,
+    // }
+    // this.handleChange = this.handleChange.bind(this);
   }
 
+  // handleChange(e) {
+  //   this.setState({
+  //     [e.target.name]:e.target.value
+  //   });
+  // }
+
   render () {
-    debugger
   const display = this.props.user ? 
       this.props.user.assets.sort(this.props.compareValues('id', 'desc')).map((asset) => {
         return (
@@ -18,11 +27,36 @@ class UserAssets extends Component {
             }
             </span>
             <br/>
-            <button onClick={() => this.deleteUserAsset(asset.id)}>Remove Asset</button>
+            <button onClick={() => this.props.deleteUserAsset(asset.id)}>Remove Asset</button>
           </div>
         )
       }) : 'WANT YOUR ASSETS?'
-      return display;
+      return (
+        <div>
+        <form onSubmit={(evt) => this.props.addUserAsset(evt)}>
+          <select
+            name="selectedAsset"
+            onChange={this.props.handleChange} >
+            <option >Choose an Asset</option>
+            {
+              this.props.assets ?
+              this.props.assets.sort(this.props.compareValues('id', 'desc')).map(asset => {
+                return (
+                  <option
+                  key={asset.id}
+                  value={asset.id}>
+                    {asset.name}
+                  </option>
+                )
+              }) : []
+            }
+          </select>
+          <br />
+          <input type='submit' value='Add Asset' />
+          </form>
+        {display}
+        </div>
+      );
     }
 }
 

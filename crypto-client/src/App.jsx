@@ -43,7 +43,7 @@ class App extends Component {
     this.getUser = this.getUser.bind(this)
     this.getUserAssets = this.getUserAssets.bind(this)
     this.showTargetAsset = this.showTargetAsset.bind(this)
-    // this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     // this.filterAssets = this.filterAssets.bind(this)
   }
 
@@ -187,7 +187,8 @@ class App extends Component {
   //   };
   // }
 
-  async addUserAsset() {
+  async addUserAsset(evt) {
+    evt.preventDefault();
     try {
       const { user, selectedAsset } = this.state;
       debugger;
@@ -287,11 +288,11 @@ class App extends Component {
     };
   }
 
-  // handleChange(e) {
-  //   this.setState({
-  //     [e.target.name]:e.target.value
-  //   });
-  // }
+  handleChange(e) {
+    this.setState({
+      [e.target.name]:e.target.value
+    });
+  }
 
   toggleCurrentPage(evt) {
     const name = evt.target.name;
@@ -315,6 +316,10 @@ class App extends Component {
         return <UserAssets user={this.state.user} 
         compareValues={this.compareValues}
         showTargetAsset={this.showTargetAsset}
+        addUserAsset={this.addUserAsset}
+        deleteUserAsset={this.deleteUserAsset}
+        assets={this.state.assets}
+        handleChange={this.handleChange}
         />
       case 'showOne':
         return <ShowOne assets={this.state.assets}
@@ -332,14 +337,8 @@ class App extends Component {
       { value: 'stellar', label: 'Stellar' }
     ]
 
-    const { assets } = this.state;
-    const { email, password } = this.state;
-    const { isLoggedIn } = this.state;
-
     return (
       <div className="App">
-        {/* <button onClick={() => this.editAssetRank()}>TEST ME</button>
-        <button onClick={() => {this.orderByRank(assets)}}>ORDER AND SET STATE</button> */}
         <header>
         <LogRegForm
         register={this.register}
@@ -359,32 +358,7 @@ class App extends Component {
         }
         </header>
         {this.choosePage()}
-          {/* <br />
-          <form onSubmit={this.addUserAsset}>
-          <select
-            name="selectedAsset"
-            onChange={this.handleChange} >
-            <option >Choose an Asset</option>
-            {
-              this.state.assets ?
-              this.state.assets.sort(this.compareValues('id', 'desc')).map(asset => {
-                return (
-                  <option
-                  key={asset.id}
-                  value={asset.id}>
-                    {asset.name}
-                  </option>
-                )
-              }) : []
-            }
-          </select>
-          <br />
-          <input type='submit' value='Add Asset' />
-          </form> */}
-          {/* {display} */}
-        {/* <AssetsPage assets={this.state.assets} /> */}
         {/* <Select options={options} /> */}
-        {/* <ShowOne assets={this.state.assets} /> */}
       </div>
     );
   }
