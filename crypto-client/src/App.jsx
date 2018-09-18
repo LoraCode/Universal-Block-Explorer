@@ -266,8 +266,9 @@ class App extends Component {
   
   async register(email, password) {
     try {
-      const user = await userRegister(email, password);
-      return user;
+      await userRegister(email, password);
+      const userLogged = await this.login(email, password);
+      return userLogged;
     } catch (err) {
       throw (err);
     };
