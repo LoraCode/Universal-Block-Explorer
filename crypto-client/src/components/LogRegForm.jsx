@@ -49,7 +49,7 @@ class LogRegForm extends Component {
           />
         </form>
         <br />
-        <button onClick={this.props.register}>Register</button>
+        <button onClick={() => this.props.register(email, password)}>Register</button>
         <button onClick={() => this.props.login(email, password)}>Login</button>
       </div>
     )

@@ -264,9 +264,8 @@ class App extends Component {
     });
   }
   
-  async register() {
+  async register(email, password) {
     try {
-      const { email, password } = this.state;
       const user = await userRegister(email, password);
       return user;
     } catch (err) {
