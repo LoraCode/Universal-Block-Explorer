@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import Select from 'react-select'
 
 const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
+  { value: 'bitcoin', label: 'Bitcoin' },
+  { value: 'ripple', label: 'Ripple' },
+  { value: 'ethereum', label: 'Ethereum' },
+  { value: 'stellar', label: 'Stellar' }
 ]
 
 const HomePage = () => (

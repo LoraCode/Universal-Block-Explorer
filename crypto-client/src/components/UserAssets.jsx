@@ -3,22 +3,18 @@ import React, { Component } from 'react';
 class UserAssets extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   selectedAsset: null,
-    // }
-    // this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // handleChange(e) {
-  //   this.setState({
-  //     [e.target.name]:e.target.value
-  //   });
-  // }
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.props.addUserAsset();
+  }
 
   render() {
     const display = this.props.user ? (
       this.props.user.assets.length ? (
-        this.props.user.assets.sort(this.props.compareValues('id', 'desc')).map((asset) => {
+        this.props.user.assets.sort(this.props.compareValues('transaction_total', 'asc')).map((asset) => {
           return (
             <div key={asset.name}>
               <h1>{asset.name}</h1>
@@ -36,7 +32,7 @@ class UserAssets extends Component {
     ) : 'WANT YOUR ASSETS?'
     return (
       <div>
-        <form onSubmit={(evt) => this.props.addUserAsset(evt)}>
+        <form onSubmit={this.handleSubmit}>
           <select
             name="selectedAsset"
             onChange={this.props.handleChange} >
