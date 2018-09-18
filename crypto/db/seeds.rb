@@ -71,3 +71,5 @@ Block.create!(
   transaction_num: 81,
   asset: ethereum
 )
+
+admin.assets << [bitcoin, stellar]
