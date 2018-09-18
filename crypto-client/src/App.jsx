@@ -217,6 +217,7 @@ class App extends Component {
       const jwt = localStorage.getItem("jwt");
       const user = jwtDecode(jwt);
       const res = await fetchUser(jwt, user.sub);
+      delete res.password_digest;
       const state = this.setState({
         user: res,
       });
